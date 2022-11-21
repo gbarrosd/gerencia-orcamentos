@@ -18,6 +18,7 @@ class SecretariaAdmin(admin.ModelAdmin):
 @admin.register(Orcamento)
 class OrcamentoAdmin(admin.ModelAdmin):
     list_display = (
+        "numero",
         "criado_em",
         "secretaria",
         "entregue",
