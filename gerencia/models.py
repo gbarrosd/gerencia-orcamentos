@@ -30,11 +30,15 @@ class Orcamento(models.Model):
     entregue = models.BooleanField(
         default=True, null=True, blank=True, verbose_name=_("Orçamento entregue")
     )
-    dt_entregue = models.DateField(null=False, verbose_name=_("Data entregue"))
+    dt_entregue = models.DateField(
+        null=True, blank=True, verbose_name=_("Data entregue")
+    )
     ordem_gerada = models.BooleanField(
         default=True, null=True, blank=True, verbose_name=_("Ordem gerada")
     )
-    dt_nota = models.DateField(null=False, verbose_name=_("Data nota gerada"))
+    dt_nota = models.DateField(
+        null=True, blank=True, verbose_name=_("Data nota gerada")
+    )
     pago = models.BooleanField(
         default=True, null=True, blank=True, verbose_name=_("Pagamento feito")
     )
