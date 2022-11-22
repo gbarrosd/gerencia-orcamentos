@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Orcamento, Secretaria
-from gerencia.gerar_pdf_ordens_atr import gerar_pdf
+from gerencia.gerar_pdf_ordens_atr import gerar_pdf, gerar_pdf_pagamento
 
 # Register your models here.
 
@@ -13,6 +13,21 @@ def gerar_pdf_ordens_atrasadas(modeladmin, request, queryset):
         if orcamento.ordem_gerada == False and orcamento.entregue == True:
             orcamentos_atrasados.append(orcamento)
     gerar_pdf(orcamentos_atrasados)
+
+
+@admin.action(description="Gerar PDF de pagamentos atrasados")
+def gerar_pdf_pagamentos_atrasados(modeladmin, request, queryset):
+    orcamentos = queryset
+    orcamentos_atrasados = []
+    for orcamento in orcamentos:
+        if (
+            orcamento.ordem_gerada == True
+            and orcamento.entregue == True
+            and orcamento.dt_nota != None
+            and orcamento.pago == False
+        ):
+            orcamentos_atrasados.append(orcamento)
+    gerar_pdf_pagamento(orcamentos_atrasados)
 
 
 @admin.register(Secretaria)
@@ -40,4 +55,4 @@ class OrcamentoAdmin(admin.ModelAdmin):
     search_fields = ("numero",)
     list_filter = ("secretaria",)
     ordering = ("criado_em",)
-    actions = [gerar_pdf_ordens_atrasadas]
+    actions = [gerar_pdf_ordens_atrasadas, gerar_pdf_pagamentos_atrasados]
